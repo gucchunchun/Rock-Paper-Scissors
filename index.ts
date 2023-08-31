@@ -1,3 +1,4 @@
+// for easy setting change
 enum Select {
     Select1 = 'rock',
     Select2 = 'paper',
@@ -9,50 +10,45 @@ enum Result {
     Tie = 'Tie'
 }
 
+// utility functions for gaming
+
+//   randomly generate computer's select
 function getComputerSelect(): Select {
     const values = Object.values(Select);
     const randomIndex = Math.floor(Math.random() * values.length);
     return values[randomIndex] as Select;
 }
 
-function returnWinner(userSelect:Select, computerSelect:Select) {
-
-}
-
-function playRound(playerSelect:string, computerSelect:string):Result {
-    const playerHand = playerSelect.toLowerCase();
-    if( playerHand === 'rock' ) {
-        if( computerSelect === 'rock' ) {
-            return Result.Tie;
-        }
-        else if( computerSelect === 'paper' ) {
-            return Result.Lose;
-        }
-        else {
-            return Result.Win;
-        }
-    }
-    else if( playerHand === 'paper' ) {
-        if( computerSelect === 'rock' ) {
-            return Result.Win;
-        }
-        else if( computerSelect === 'paper' ) {
-            return Result.Tie;
-        }
-        else {
-            return Result.Lose;
-        }
-    }
-    else{
-        if( computerSelect === 'rock' ) {
-            return Result.Lose;
-        }
-        else if( computerSelect === 'paper' ) {
-            return Result.Win;
-        }
-        else {
-            return Result.Tie;
-        }
+//   logic: Select1 < Select2, Select2 < Select3, Select3 < Select1
+function returnResult(userSelect:Select, computerSelect:Select):Result {
+    switch ( userSelect ) {
+        case Select.Select1:
+            switch ( computerSelect ) {
+                case Select.Select1:
+                    return Result.Tie;
+                case Select.Select2:
+                    return Result.Lose;
+                case Select.Select3:
+                    return Result.Win;
+            }
+        case Select.Select2:
+            switch ( computerSelect ) {
+                case Select.Select1:
+                    return Result.Win;
+                case Select.Select2:
+                    return Result.Tie;
+                case Select.Select3:
+                    return Result.Lose;
+            }
+        case Select.Select3:
+            switch ( computerSelect ) {
+                case Select.Select1:
+                    return Result.Lose;
+                case Select.Select2:
+                    return Result.Win;
+                case Select.Select3:
+                    return Result.Tie;
+            }
     }
 }
 
@@ -60,27 +56,50 @@ function makeResult(playerPoints:number, computerPoints:number, tie:number, numO
     return ('Game Result (Total: '+ numOfGames +'\n\nplayer Points: ' + playerPoints + '\nComputer Points: ' +computerPoints + '\nTie: ' + tie)
 }
 
+class Game {
+    win:number;
+    lose:number;
+    tie:number;
+    round:number;
+    set: number;
+    constructor() {
+        this.win = 0;
+        this.lose = 0;
+        this.tie = 0;
+        this.round = 1;
+        this.set = 1;
+    }
+    play(userSelect:Select):Result {
+        let result = returnResult(userSelect, getComputerSelect());
+
+        if (result === Result.Win) {
+            this.win++;
+        } else if (result === Result.Lose) {
+            this.lose++;
+        }else {
+            this.tie++;
+        }
+        this.round++;
+        return result;
+    }
+}
+
 
 const playButton = document.querySelector('#play-button');
 const playerSelectButtons = document.querySelectorAll('.Select');
-const gameInfo = {
-    playerPoints:0,
-    computerPoints:0,
-    tie:0,
-    round:0,
-}
+let game = new Game;
 
-function gameInit() {
-}
 playButton?.addEventListener('click', () =>{
     playButton.classList.toggle('play-button--end');
-    playerSelectButtons?.forEach((button)=>{
-        let playerSelectButton = button as HTMLButtonElement;
-        playerSelectButton.addEventListener('click', (event:MouseEvent)=>{
-            event.preventDefault();
-            let playerSelect = playerSelectButton.value;
-        });
-    })
+    
 })
-
+playerSelectButtons?.forEach((button)=>{
+    let playerSelectButton = button as HTMLButtonElement;
+    playerSelectButton.addEventListener('click', (event:MouseEvent)=>{
+        event.preventDefault();
+        let playerSelect = playerSelectButton.value as Select;
+        let result = game.play(playerSelect);
+        alert(result);
+    });
+})
 

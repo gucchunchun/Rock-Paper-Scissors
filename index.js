@@ -1,119 +1,94 @@
 "use strict";
-const selection = ['rock', 'paper', 'scissors'];
+// for easy setting change
+var Select;
+(function (Select) {
+    Select["Select1"] = "rock";
+    Select["Select2"] = "paper";
+    Select["Select3"] = "scissors";
+})(Select || (Select = {}));
 var Result;
 (function (Result) {
     Result["Win"] = "You Win!";
     Result["Lose"] = "You Lose";
     Result["Tie"] = "Tie";
-    Result["Typo"] = "Please type Rock, Paper or Scissors";
 })(Result || (Result = {}));
-function getComputerChoice() {
-    return selection[Math.round(Math.random() * (selection.length - 1))];
+// utility functions for gaming
+//   randomly generate computer's select
+function getComputerSelect() {
+    const values = Object.values(Select);
+    const randomIndex = Math.floor(Math.random() * values.length);
+    return values[randomIndex];
 }
-function playRound(playerSelection, computerSelection) {
-    const playerHand = playerSelection.toLowerCase();
-    if (playerHand === 'rock') {
-        if (computerSelection === 'rock') {
-            return Result.Tie;
+//   logic: Select1 < Select2, Select2 < Select3, Select3 < Select1
+function returnResult(userSelect, computerSelect) {
+    switch (userSelect) {
+        case Select.Select1:
+            switch (computerSelect) {
+                case Select.Select1:
+                    return Result.Tie;
+                case Select.Select2:
+                    return Result.Lose;
+                case Select.Select3:
+                    return Result.Win;
+            }
+        case Select.Select2:
+            switch (computerSelect) {
+                case Select.Select1:
+                    return Result.Win;
+                case Select.Select2:
+                    return Result.Tie;
+                case Select.Select3:
+                    return Result.Lose;
+            }
+        case Select.Select3:
+            switch (computerSelect) {
+                case Select.Select1:
+                    return Result.Lose;
+                case Select.Select2:
+                    return Result.Win;
+                case Select.Select3:
+                    return Result.Tie;
+            }
+    }
+}
+function makeResult(playerPoints, computerPoints, tie, numOfGames) {
+    return ('Game Result (Total: ' + numOfGames + '\n\nplayer Points: ' + playerPoints + '\nComputer Points: ' + computerPoints + '\nTie: ' + tie);
+}
+class Game {
+    constructor() {
+        this.win = 0;
+        this.lose = 0;
+        this.tie = 0;
+        this.round = 1;
+        this.set = 1;
+    }
+    play(userSelect) {
+        let result = returnResult(userSelect, getComputerSelect());
+        if (result === Result.Win) {
+            this.win++;
         }
-        else if (computerSelection === 'paper') {
-            return Result.Lose;
+        else if (result === Result.Lose) {
+            this.lose++;
         }
         else {
-            return Result.Win;
+            this.tie++;
         }
-    }
-    else if (playerHand === 'paper') {
-        if (computerSelection === 'rock') {
-            return Result.Win;
-        }
-        else if (computerSelection === 'paper') {
-            return Result.Tie;
-        }
-        else {
-            return Result.Lose;
-        }
-    }
-    else if (playerHand === 'scissors') {
-        if (computerSelection === 'rock') {
-            return Result.Lose;
-        }
-        else if (computerSelection === 'paper') {
-            return Result.Win;
-        }
-        else {
-            return Result.Tie;
-        }
-    }
-    else {
-        return Result.Typo;
+        this.round++;
+        return result;
     }
 }
-function showResult(playerPoints, computerPoints, tie, numOfGames) {
-    console.log('Game Result (Total: ' + numOfGames + '\n\nplayer Points: ' + playerPoints + '\nComputer Points: ' + computerPoints + '\nTie: ' + tie);
-}
-function game() {
-    let playerPoints = 0;
-    let computerPoints = 0;
-    let tie = 0;
-    let round = 0;
-    let onGoing = true;
-    while (onGoing) {
-        console.log('ROUND ' + (round + 1));
-        while (true) {
-            let playerSelect = prompt('Rock, Paper or Scissors?');
-            if (!playerSelect) {
-                continue;
-            }
-            let result = playRound(playerSelect, getComputerChoice());
-            console.log(result);
-            if (result === Result.Typo) {
-                continue;
-            }
-            else {
-                if (result === Result.Win) {
-                    playerPoints++;
-                }
-                else if (result === Result.Lose) {
-                    computerPoints++;
-                }
-                else {
-                    tie++;
-                }
-                round++;
-                break;
-            }
-        }
-        let quit;
-        while (true) {
-            quit = prompt('Do you want to continue game? y(yes) or n(no):');
-            if (!quit) {
-                continue;
-            }
-            else {
-                quit = quit.toLowerCase();
-                if (quit === 'y' || quit === 'n') {
-                    break;
-                }
-                else {
-                    console.log('Please Type y or n');
-                    continue;
-                }
-            }
-        }
-        if (quit === 'n') {
-            console.log('It was good game\n');
-            onGoing = false;
-        }
-    }
-    showResult(playerPoints, computerPoints, tie, round);
-}
-const playerSelectButtons = document.querySelectorAll('.selection');
+const playButton = document.querySelector('#play-button');
+const playerSelectButtons = document.querySelectorAll('.Select');
+let game = new Game;
+playButton === null || playButton === void 0 ? void 0 : playButton.addEventListener('click', () => {
+    playButton.classList.toggle('play-button--end');
+});
 playerSelectButtons === null || playerSelectButtons === void 0 ? void 0 : playerSelectButtons.forEach((button) => {
     let playerSelectButton = button;
     playerSelectButton.addEventListener('click', (event) => {
         event.preventDefault();
-        let playerSelection = playerSelectButton.value;
-        console.log(playRound(playerSelection, getComputerChoice()));
+        let playerSelect = playerSelectButton.value;
+        let result = game.play(playerSelect);
+        alert(result);
     });
 });
