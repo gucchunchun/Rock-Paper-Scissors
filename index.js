@@ -51,9 +51,6 @@ function returnResult(userSelect, computerSelect) {
             }
     }
 }
-function makeResult(playerPoints, computerPoints, tie, numOfGames) {
-    return ('Game Result (Total: ' + numOfGames + '\n\nplayer Points: ' + playerPoints + '\nComputer Points: ' + computerPoints + '\nTie: ' + tie);
-}
 class Game {
     constructor() {
         this.win = 0;
@@ -76,6 +73,9 @@ class Game {
         this.round++;
         return result;
     }
+    result() {
+        return (`Game Result (Total: ${this.round}round/${this.set}set\n\nplayer Points: ${this.win}\nComputer Points: ${this.lose}\nTie: ${this.tie}`);
+    }
 }
 const playButton = document.querySelector('#play-button');
 const playerSelectButtons = document.querySelectorAll('.select');
@@ -91,6 +91,5 @@ playerSelectButtons === null || playerSelectButtons === void 0 ? void 0 : player
         let playerSelect = playerSelectButton.value;
         let result = game.play(playerSelect);
         alert(result);
-        console.log(game.round);
     });
 });
