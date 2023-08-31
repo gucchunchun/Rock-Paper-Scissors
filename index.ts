@@ -49,12 +49,12 @@ function playRound(playerSelection:string, computerSelection:string):Result {
         return Result.Typo;
     }
 }
-function showResult(userPoints:number, computerPoints:number, tie:number, numOfGames:number) {
-    console.log('Game Result (Total: '+ numOfGames +'\n\nUser Points: ' + userPoints + '\nComputer Points: ' +computerPoints + '\nTie: ' + tie)
+function showResult(playerPoints:number, computerPoints:number, tie:number, numOfGames:number) {
+    console.log('Game Result (Total: '+ numOfGames +'\n\nplayer Points: ' + playerPoints + '\nComputer Points: ' +computerPoints + '\nTie: ' + tie)
 }
 
 function game() {
-    let userPoints:number = 0;
+    let playerPoints:number = 0;
     let computerPoints:number = 0;
     let tie:number = 0;
     let round = 0;
@@ -62,17 +62,17 @@ function game() {
     while (onGoing) {
         console.log('ROUND ' + (round+1));
         while (true) {
-            let userSelect:(string|null) = prompt('Rock, Paper or Scissors?');
-            if( !userSelect ){
+            let playerSelect:(string|null) = prompt('Rock, Paper or Scissors?');
+            if( !playerSelect ){
                 continue;
             }
-            let result = playRound(userSelect, getComputerChoice());
+            let result = playRound(playerSelect, getComputerChoice());
             console.log(result);
             if( result === Result.Typo) {
                 continue;
             }else {
                 if( result === Result.Win ) {
-                    userPoints ++;
+                    playerPoints ++;
                 }else if (result === Result.Lose ) {
                     computerPoints ++;
                 }else {
@@ -102,15 +102,15 @@ function game() {
             onGoing = false;
         }
     }
-    showResult(userPoints, computerPoints, tie, round);
+    showResult(playerPoints, computerPoints, tie, round);
 }
 
-const userSelectButtons = document.querySelectorAll('.selection');
-userSelectButtons?.forEach((button)=>{
-    let userSelectButton = button as HTMLButtonElement;
-    userSelectButton.addEventListener('click', (event:MouseEvent)=>{
+const playerSelectButtons = document.querySelectorAll('.selection');
+playerSelectButtons?.forEach((button)=>{
+    let playerSelectButton = button as HTMLButtonElement;
+    playerSelectButton.addEventListener('click', (event:MouseEvent)=>{
         event.preventDefault();
-        let userSelection = userSelectButton.value;
-        console.log(playRound(userSelection, getComputerChoice()));
+        let playerSelection = playerSelectButton.value;
+        console.log(playRound(playerSelection, getComputerChoice()));
     });
 })

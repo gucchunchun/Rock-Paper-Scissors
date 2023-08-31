@@ -49,11 +49,11 @@ function playRound(playerSelection, computerSelection) {
         return Result.Typo;
     }
 }
-function showResult(userPoints, computerPoints, tie, numOfGames) {
-    console.log('Game Result (Total: ' + numOfGames + '\n\nUser Points: ' + userPoints + '\nComputer Points: ' + computerPoints + '\nTie: ' + tie);
+function showResult(playerPoints, computerPoints, tie, numOfGames) {
+    console.log('Game Result (Total: ' + numOfGames + '\n\nplayer Points: ' + playerPoints + '\nComputer Points: ' + computerPoints + '\nTie: ' + tie);
 }
 function game() {
-    let userPoints = 0;
+    let playerPoints = 0;
     let computerPoints = 0;
     let tie = 0;
     let round = 0;
@@ -61,18 +61,18 @@ function game() {
     while (onGoing) {
         console.log('ROUND ' + (round + 1));
         while (true) {
-            let userSelect = prompt('Rock, Paper or Scissors?');
-            if (!userSelect) {
+            let playerSelect = prompt('Rock, Paper or Scissors?');
+            if (!playerSelect) {
                 continue;
             }
-            let result = playRound(userSelect, getComputerChoice());
+            let result = playRound(playerSelect, getComputerChoice());
             console.log(result);
             if (result === Result.Typo) {
                 continue;
             }
             else {
                 if (result === Result.Win) {
-                    userPoints++;
+                    playerPoints++;
                 }
                 else if (result === Result.Lose) {
                     computerPoints++;
@@ -106,14 +106,14 @@ function game() {
             onGoing = false;
         }
     }
-    showResult(userPoints, computerPoints, tie, round);
+    showResult(playerPoints, computerPoints, tie, round);
 }
-const userSelectButtons = document.querySelectorAll('.selection');
-userSelectButtons === null || userSelectButtons === void 0 ? void 0 : userSelectButtons.forEach((button) => {
-    let userSelectButton = button;
-    userSelectButton.addEventListener('click', (event) => {
+const playerSelectButtons = document.querySelectorAll('.selection');
+playerSelectButtons === null || playerSelectButtons === void 0 ? void 0 : playerSelectButtons.forEach((button) => {
+    let playerSelectButton = button;
+    playerSelectButton.addEventListener('click', (event) => {
         event.preventDefault();
-        let userSelection = userSelectButton.value;
-        console.log(playRound(userSelection, getComputerChoice()));
+        let playerSelection = playerSelectButton.value;
+        console.log(playRound(playerSelection, getComputerChoice()));
     });
 });
