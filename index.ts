@@ -9,10 +9,10 @@ enum Result {
     Tie = 'Tie'
 }
 
-function getComputerSelect() {
-    const selects = Object.keys(Select);
-    const computerSelect = selects[Math.round(Math.random() * (selects.length-1))];
-    return ;
+function getComputerSelect(): Select {
+    const values = Object.values(Select);
+    const randomIndex = Math.floor(Math.random() * values.length);
+    return values[randomIndex] as Select;
 }
 
 function returnWinner(userSelect:Select, computerSelect:Select) {
