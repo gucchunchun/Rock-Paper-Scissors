@@ -86,13 +86,14 @@ class Game {
 
 
 const playButton = document.querySelector('#play-button');
-const playerSelectButtons = document.querySelectorAll('.Select');
+const playerSelectButtons = document.querySelectorAll('.select');
 let game = new Game;
 
 playButton?.addEventListener('click', () =>{
     playButton.classList.toggle('play-button--end');
     
 })
+//  playerSelect = playerSelectButton.value as Select =>could be a problem when setting is changed
 playerSelectButtons?.forEach((button)=>{
     let playerSelectButton = button as HTMLButtonElement;
     playerSelectButton.addEventListener('click', (event:MouseEvent)=>{

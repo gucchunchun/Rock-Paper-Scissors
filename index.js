@@ -78,11 +78,12 @@ class Game {
     }
 }
 const playButton = document.querySelector('#play-button');
-const playerSelectButtons = document.querySelectorAll('.Select');
+const playerSelectButtons = document.querySelectorAll('.select');
 let game = new Game;
 playButton === null || playButton === void 0 ? void 0 : playButton.addEventListener('click', () => {
     playButton.classList.toggle('play-button--end');
 });
+//  playerSelect = playerSelectButton.value as Select =>could be a problem when setting is changed
 playerSelectButtons === null || playerSelectButtons === void 0 ? void 0 : playerSelectButtons.forEach((button) => {
     let playerSelectButton = button;
     playerSelectButton.addEventListener('click', (event) => {
@@ -90,5 +91,6 @@ playerSelectButtons === null || playerSelectButtons === void 0 ? void 0 : player
         let playerSelect = playerSelectButton.value;
         let result = game.play(playerSelect);
         alert(result);
+        console.log(game.round);
     });
 });
