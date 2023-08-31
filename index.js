@@ -108,4 +108,12 @@ function game() {
     }
     showResult(userPoints, computerPoints, tie, round);
 }
-game();
+const userSelectButtons = document.querySelectorAll('.selection');
+userSelectButtons === null || userSelectButtons === void 0 ? void 0 : userSelectButtons.forEach((button) => {
+    let userSelectButton = button;
+    userSelectButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        let userSelection = userSelectButton.value;
+        console.log(playRound(userSelection, getComputerChoice()));
+    });
+});
