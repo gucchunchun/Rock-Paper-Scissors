@@ -52,8 +52,8 @@ function returnResult(userSelect:Select, computerSelect:Select):Result {
     }
 }
 
-function makeResult(playerPoints:number, computerPoints:number, tie:number, numOfGames:number):string {
-    return ('Game Result (Total: '+ numOfGames +'\n\nplayer Points: ' + playerPoints + '\nComputer Points: ' +computerPoints + '\nTie: ' + tie)
+function makeResult(win:number, lose:number, tie:number, numOfGames:number):string {
+    return (`Game Result (Total: ${numOfGames}\n\nplayer Points: ${win}\nComputer Points: ${lose}\nTie: ${tie}`)
 }
 
 class Game {
