@@ -1,22 +1,31 @@
-const selection = ['rock','paper','scissors'];
+enum Select {
+    Select1 = 'rock',
+    Select2 = 'paper',
+    Select3 = 'scissors'
+}
 enum Result {
     Win = 'You Win!',
     Lose = 'You Lose',
-    Tie = 'Tie',
-    Typo = 'Please type Rock, Paper or Scissors'
+    Tie = 'Tie'
 }
 
-function getComputerChoice() {
-    return selection[Math.round(Math.random() * (selection.length-1))];
+function getComputerSelect() {
+    const selects = Object.keys(Select);
+    const computerSelect = selects[Math.round(Math.random() * (selects.length-1))];
+    return ;
 }
 
-function playRound(playerSelection:string, computerSelection:string):Result {
-    const playerHand = playerSelection.toLowerCase();
+function returnWinner(userSelect:Select, computerSelect:Select) {
+
+}
+
+function playRound(playerSelect:string, computerSelect:string):Result {
+    const playerHand = playerSelect.toLowerCase();
     if( playerHand === 'rock' ) {
-        if( computerSelection === 'rock' ) {
+        if( computerSelect === 'rock' ) {
             return Result.Tie;
         }
-        else if( computerSelection === 'paper' ) {
+        else if( computerSelect === 'paper' ) {
             return Result.Lose;
         }
         else {
@@ -24,93 +33,54 @@ function playRound(playerSelection:string, computerSelection:string):Result {
         }
     }
     else if( playerHand === 'paper' ) {
-        if( computerSelection === 'rock' ) {
+        if( computerSelect === 'rock' ) {
             return Result.Win;
         }
-        else if( computerSelection === 'paper' ) {
+        else if( computerSelect === 'paper' ) {
             return Result.Tie;
         }
         else {
             return Result.Lose;
         }
     }
-    else if( playerHand === 'scissors' ) {
-        if( computerSelection === 'rock' ) {
+    else{
+        if( computerSelect === 'rock' ) {
             return Result.Lose;
         }
-        else if( computerSelection === 'paper' ) {
+        else if( computerSelect === 'paper' ) {
             return Result.Win;
         }
         else {
             return Result.Tie;
         }
     }
-    else {
-        return Result.Typo;
-    }
-}
-function showResult(playerPoints:number, computerPoints:number, tie:number, numOfGames:number) {
-    console.log('Game Result (Total: '+ numOfGames +'\n\nplayer Points: ' + playerPoints + '\nComputer Points: ' +computerPoints + '\nTie: ' + tie)
 }
 
-function game() {
-    let playerPoints:number = 0;
-    let computerPoints:number = 0;
-    let tie:number = 0;
-    let round = 0;
-    let onGoing = true;
-    while (onGoing) {
-        console.log('ROUND ' + (round+1));
-        while (true) {
-            let playerSelect:(string|null) = prompt('Rock, Paper or Scissors?');
-            if( !playerSelect ){
-                continue;
-            }
-            let result = playRound(playerSelect, getComputerChoice());
-            console.log(result);
-            if( result === Result.Typo) {
-                continue;
-            }else {
-                if( result === Result.Win ) {
-                    playerPoints ++;
-                }else if (result === Result.Lose ) {
-                    computerPoints ++;
-                }else {
-                    tie ++;
-                }
-                round ++;
-                break;
-            }
-        }
-        let quit:(string|null);
-        while (true) {
-            quit = prompt('Do you want to continue game? y(yes) or n(no):');
-            if( !quit ){
-                continue;
-            }else {
-                quit = quit.toLowerCase();
-                if( quit === 'y' || quit === 'n' ) {
-                    break;
-                }else {
-                    console.log('Please Type y or n');
-                    continue;
-                }
-            }
-        }
-        if( quit === 'n' ) {
-            console.log('It was good game\n');
-            onGoing = false;
-        }
-    }
-    showResult(playerPoints, computerPoints, tie, round);
+function makeResult(playerPoints:number, computerPoints:number, tie:number, numOfGames:number):string {
+    return ('Game Result (Total: '+ numOfGames +'\n\nplayer Points: ' + playerPoints + '\nComputer Points: ' +computerPoints + '\nTie: ' + tie)
 }
 
-const playerSelectButtons = document.querySelectorAll('.selection');
-playerSelectButtons?.forEach((button)=>{
-    let playerSelectButton = button as HTMLButtonElement;
-    playerSelectButton.addEventListener('click', (event:MouseEvent)=>{
-        event.preventDefault();
-        let playerSelection = playerSelectButton.value;
-        console.log(playRound(playerSelection, getComputerChoice()));
-    });
+
+const playButton = document.querySelector('#play-button');
+const playerSelectButtons = document.querySelectorAll('.Select');
+const gameInfo = {
+    playerPoints:0,
+    computerPoints:0,
+    tie:0,
+    round:0,
+}
+
+function gameInit() {
+}
+playButton?.addEventListener('click', () =>{
+    playButton.classList.toggle('play-button--end');
+    playerSelectButtons?.forEach((button)=>{
+        let playerSelectButton = button as HTMLButtonElement;
+        playerSelectButton.addEventListener('click', (event:MouseEvent)=>{
+            event.preventDefault();
+            let playerSelect = playerSelectButton.value;
+        });
+    })
 })
+
+

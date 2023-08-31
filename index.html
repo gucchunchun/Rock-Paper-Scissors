@@ -6,9 +6,11 @@
     <title>Rock Paper Scissors</title>
   </head>
   <body>
+    <button id="play-button" type="button" class="play-button">start</button>
     <button
       id="player-selection--rock"
       class="selection selection--rock"
+      type="button"
       value="rock"
     >
       rock
@@ -16,6 +18,7 @@
     <button
       id="player-selection--paper"
       class="selection selection--paper"
+      type="button"
       value="paper"
     >
       paper
@@ -23,10 +26,14 @@
     <button
       id="player-selection--scissors"
       class="selection selection--scissors"
+      type="button"
       value="scissors"
     >
       scissors
     </button>
+    <div id="result" class="result">
+      <p>score</p>
+    </div>
     <script src="./index.js"></script>
   </body>
 </html>
