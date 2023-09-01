@@ -79,17 +79,26 @@ class Game {
         return result;
     }
     result() {
-        return (`Game Result (Total: ${this.round}round/${this.set}set\n\nplayer Points: ${this.win}\nComputer Points: ${this.lose}\nTie: ${this.tie}`)
+        return (`Game Result (Total: ${this.round}round/${this.set}set) Player Points: ${this.win} Computer Points: ${this.lose} Tie: ${this.tie}`)
     }
 }
 
 
 const playButton = document.querySelector('#play-button');
 const playerSelectButtons = document.querySelectorAll('.select');
+const result = document.querySelector('#result');
 let game = new Game;
 
 playButton?.addEventListener('click', () =>{
     playButton.classList.toggle('play-button--end');
+    if( playButton.classList.contains('play-button--end')) {
+        playButton.innerHTML = 'end';
+    }else {
+        playButton.innerHTML = 'start';
+        const resultP = document.createElement('p');
+        resultP.innerHTML = game.result();
+        result?.appendChild(resultP);
+    }
     
 })
 //  playerSelect = playerSelectButton.value as Select =>could be a problem when setting is changed
